@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+
+  ambiente-mariadb:
+    image: mariadb
+    container_name: vm_mariadb
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: "root"
+
+  ambiente-adminer:
+    image: adminer
+    container_name: vm_adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  ambiente-nginx:
+    image: nginx:alpine-perl
+    container_name: vm_nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./www:/usr/share/nginx/html
