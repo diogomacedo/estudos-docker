@@ -26,3 +26,30 @@ services:
       - 80:80
     volumes:
       - ./www:/usr/share/nginx/html
+
+  ambiente-mongo:
+    image: mongo:jammy
+    container_name: vm_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  ambiente-mongo-express:
+    image: mongo-express:1.0.2-20
+    container_name: vm_mongodb_express
+    restart: always
+    ports:
+      - "8081:8081"
+    links:
+      - ambiente-mongo
+    environment:
+      ME_CONFIG_MONGODB_SERVER: vm_mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
